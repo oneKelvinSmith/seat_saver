@@ -210,7 +210,101 @@ Maybe also add a link to [Types in the Guide](http://guide.elm-lang.org/types/)?
 
 Otherwise :thumbsup:
 
-[Post #6](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-18-phoenix-elm-6.md)
+## [Post #6](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-18-phoenix-elm-6.md)
+
+First thing I stumbled with here was the type annotation syntax for a function that takes multiple arguments i.e. `function : first -> second -> result`. I've since learned that it's got to do with currying(partial function application) and I can think of the signature as saying that 'this is a function that takes `first` and returns a function that takes `second` which then returns the `result`'. Here is a decent [article on currying](http://andrewberls.com/blog/post/partial-function-application-for-humans).
+
+In the example of
+```elm
+type Msg = Toggle Seat
+```
+You could talk about how `Toggle` is not a separate type but a 'type constructor' or 'tag' that takes an argument of type `Seat`. `Toggle Seat` is a value of the `Msg` type. It's kind of like an enum and helps to make pattern matching on the `Msg` type easier. This stuff is still quite fuzzy for me.
+
+<aside>I'm annoyed that they've started using shortened names for things like `Msg` instead of `Message`. It seems inconsistent and unnecessary.</aside>
+
+
+Code was all :thumbsup:. I used `Message` instead of `Msg`...
+```elm
+module SeatSaver exposing (..)
+
+import Html            exposing (..)
+import Html.Attributes exposing (class)
+import Html.Events     exposing (onClick)
+
+import Html.App as Html
+
+main : Program Never
+main =
+  Html.beginnerProgram
+    { model = init
+    , update = update
+    , view = view }
+
+
+-- MODEL
+
+type alias Seat =
+  { occupied : Bool
+  , seatNo : Int
+  }
+
+type alias Model =
+  List Seat
+
+init : Model
+init =
+  [ { occupied = False, seatNo = 1 }
+  , { occupied = False, seatNo = 2 }
+  , { occupied = False, seatNo = 3 }
+  , { occupied = False, seatNo = 4 }
+  , { occupied = False, seatNo = 5 }
+  , { occupied = False, seatNo = 6 }
+  , { occupied = False, seatNo = 7 }
+  , { occupied = False, seatNo = 8 }
+  , { occupied = False, seatNo = 9 }
+  , { occupied = False, seatNo = 10 }
+  , { occupied = False, seatNo = 11 }
+  , { occupied = False, seatNo = 12 }
+  ]
+
+
+-- UPDATE
+
+type Message = Toggle Seat
+
+update : Message -> Model -> Model
+update message model =
+  case message of
+    Toggle seatToToggle ->
+      let
+        updateSeat seatFromModel =
+          if seatFromModel.seatNo == seatToToggle.seatNo then
+            { seatFromModel | occupied = not seatFromModel.occupied }
+          else
+            seatFromModel
+      in
+        List.map updateSeat model
+
+
+-- VIEW
+
+view : Model -> Html Message
+view model =
+  ul [ class "seats" ](List.map seatItem model)
+
+seatItem : Seat -> Html Message
+seatItem seat =
+  let
+    occupiedClass =
+      if seat.occupied then "occupied" else "available"
+  in
+    li
+      [ class ("seat " ++ occupiedClass)
+      , onClick (Toggle seat)
+      ]
+      [ text (toString seat.seatNo) ]
+```
+
 [Post #7](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-30-phoenix-elm-7.md)
 [Post #8](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-11-04-phoenix-elm-8.md)
 [Post #9](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-11-05-phoenix-elm-9.md)

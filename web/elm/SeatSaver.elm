@@ -1,12 +1,17 @@
 module SeatSaver exposing (..)
 
-import Html exposing (..)
+import Html            exposing (..)
 import Html.Attributes exposing (class)
+import Html.Events     exposing (onClick)
 
+import Html.App as Html
 
-main : Html any
+main : Program Never
 main =
-  view init
+  Html.beginnerProgram
+    { model = init
+    , update = update
+    , view = view }
 
 
 -- MODEL
@@ -36,12 +41,38 @@ init =
   ]
 
 
+-- UPDATE
+
+type Message = Toggle Seat
+
+update : Message -> Model -> Model
+update message model =
+  case message of
+    Toggle seatToToggle ->
+      let
+        updateSeat seatFromModel =
+          if seatFromModel.seatNo == seatToToggle.seatNo then
+            { seatFromModel | occupied = not seatFromModel.occupied }
+          else
+            seatFromModel
+      in
+        List.map updateSeat model
+
+
 -- VIEW
 
-view : Model -> Html any
+view : Model -> Html Message
 view model =
   ul [ class "seats" ](List.map seatItem model)
 
-seatItem : Seat -> Html any
+seatItem : Seat -> Html Message
 seatItem seat =
-  li [ class "seat available" ] [ text (toString seat.seatNo) ]
+  let
+    occupiedClass =
+      if seat.occupied then "occupied" else "available"
+  in
+    li
+      [ class ("seat " ++ occupiedClass)
+      , onClick (Toggle seat)
+      ]
+      [ text (toString seat.seatNo) ]
