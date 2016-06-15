@@ -202,7 +202,14 @@ import Html.Attributes exposing (class)
 
 ```
 
-[Post #5](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-18-phoenix-elm-5.md)
+## [Post #5](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-18-phoenix-elm-5.md)
+
+So, it looks like I jumped the gun with type annotations. One thing that would be useful is a short discussion about 'type variables' like `a`. Which appears in all the compiler messages and I think is short for 'alpha' from some type theory book/paper. I used 'any' and 'string' in places  because it felt more familiar.
+
+Maybe also add a link to [Types in the Guide](http://guide.elm-lang.org/types/)?
+
+Otherwise :thumbsup:
+
 [Post #6](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-18-phoenix-elm-6.md)
 [Post #7](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-30-phoenix-elm-7.md)
 [Post #8](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-11-04-phoenix-elm-8.md)
