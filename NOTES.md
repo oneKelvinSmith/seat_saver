@@ -1,18 +1,20 @@
 # Notes
 
-[Post #1](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-15-phoenix-elm-1.md)
+Some comments but mostly updated code snippets that worked for me.
 
-Versions I'm testing on. Latest of everything as of 14 June 2016.
+## [Post #1](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-15-phoenix-elm-1.md)
 
-elixir:   1.2.6
-elm:      0.17.0
-phoenix:  1.1.6
-postgres: 9.5.3
+Versions I'm testing on (Latest of everything as of 14 June 2016).
+
+* elixir:   1.2.6
+* elm:      0.17.0
+* phoenix:  1.1.6
+* postgres: 9.5.3
 
 :thumbsup:
 
 
-[Post #2](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-15-phoenix-elm-2.md)
+## [Post #2](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-15-phoenix-elm-2.md)
 
 Saw a compile warning here.
 ```
@@ -77,12 +79,129 @@ I also added some rules to my `.gitignore` to have less stuff in git.
 ```git
 # Elm stuff
 /web/elm/elm-stuff/
+/web/elm/elm.js
+/web/elm/index.html
 /web/static/vendor/
 ```
 
+## [Post #3](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-16-phoenix-elm-3.md)
 
-[Post #3](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-16-phoenix-elm-3.md)
-[Post #4](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-16-phoenix-elm-4.md)
+Following convention of previous suggestions
+```elm
+main : Html string
+main =
+  view
+
+
+-- VIEW
+
+view : Html string
+view =
+  text "Woo hoo, I'm in a view"
+
+```
+
+## [Post #4](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-16-phoenix-elm-4.md)
+
+I reversed the `Seat` type alias because that's how it shows up in compile errors/messages.
+```elm
+  { occupied : Bool
+  , seatNo : Int
+  }
+```
+
+Init function with reversed records and type signature.
+```elm
+init : Model
+init =
+  [ { occupied = False, seatNo = 1 }
+  , { occupied = False, seatNo = 2 }
+  , { occupied = False, seatNo = 3 }
+  , { occupied = False, seatNo = 4 }
+  , { occupied = False, seatNo = 5 }
+  , { occupied = False, seatNo = 6 }
+  , { occupied = False, seatNo = 7 }
+  , { occupied = False, seatNo = 8 }
+  , { occupied = False, seatNo = 9 }
+  , { occupied = False, seatNo = 10 }
+  , { occupied = False, seatNo = 11 }
+  , { occupied = False, seatNo = 12 }
+  ]
+```
+
+Overview after adding model.
+```elm
+module SeatSaver exposing (..)
+
+import Html exposing (Html, text)
+
+
+main : Html string
+main =
+  view
+
+
+-- MODEL
+
+type alias Seat =
+  { occupied : Bool
+  , seatNo : Int
+  }
+
+type alias Model =
+  List Seat
+
+init : Model
+init =
+  [ { occupied = False, seatNo = 1 }
+  , { occupied = False, seatNo = 2 }
+  , { occupied = False, seatNo = 3 }
+  , { occupied = False, seatNo = 4 }
+  , { occupied = False, seatNo = 5 }
+  , { occupied = False, seatNo = 6 }
+  , { occupied = False, seatNo = 7 }
+  , { occupied = False, seatNo = 8 }
+  , { occupied = False, seatNo = 9 }
+  , { occupied = False, seatNo = 10 }
+  , { occupied = False, seatNo = 11 }
+  , { occupied = False, seatNo = 12 }
+  ]
+
+
+-- VIEW
+
+view : Html string
+view =
+  text "Woo hoo, I'm in a view"
+```
+
+`main` function after passing model to view.
+```elm
+main : Html any
+main =
+  view init
+```
+
+`view` function after adding model as argument.
+```elm
+-- VIEW
+
+view : Model -> Html any
+view model =
+  ul [ class "seats" ](List.map seatItem model)
+
+seatItem : Seat -> Html any
+seatItem seat =
+  li [ class "seat available" ] [ text (toString seat.seatNo) ]
+
+```
+and the updated imports.
+```elm
+import Html exposing (Html, text, ul, li)
+import Html.Attributes exposing (class)
+
+```
+
 [Post #5](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-18-phoenix-elm-5.md)
 [Post #6](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-18-phoenix-elm-6.md)
 [Post #7](https://github.com/CultivateHQ/cultivateHQ.com/blob/elm-0-17-update/source/posts/2015-10-30-phoenix-elm-7.md)

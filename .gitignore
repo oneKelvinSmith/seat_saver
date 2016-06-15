@@ -25,6 +25,8 @@ erl_crash.dump
 
 # Elm stuff
 /web/elm/elm-stuff/
+/web/elm/elm.js
+/web/elm/index.html
 /web/static/vendor/
 
 # Editor related linting and code analysis
